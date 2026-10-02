@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { width: 360px; margin: 0; padding: 14px; font: 13px/1.5 system-ui, sans-serif; }
+    h1 { font-size: 14px; margin: 0 0 10px; }
+    .row { display: flex; align-items: center; gap: 10px; }
+    input[type="range"] { flex: 1; }
+    #value { width: 40px; text-align: right; font-variant-numeric: tabular-nums; }
+    .hint { display: flex; justify-content: space-between; color: #666; font-size: 11px; margin-top: 2px; }
+    p { color: #555; font-size: 12px; margin: 10px 0; }
+    button { padding: 4px 10px; }
+    hr { margin: 14px 0; border: 0; border-top: 1px solid #ddd; }
+    textarea { width: 100%; height: 150px; box-sizing: border-box; resize: vertical; font: inherit; padding: 6px; }
+    .bar { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+    #copyStatus { color: #2a7; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>改行を残す行の長さ</h1>
+  <div class="row">
+    <input type="range" id="slider" min="0.5" max="1" step="0.01">
+    <span id="value"></span>
+  </div>
+  <div class="hint"><span>0.5：繋がりやすい</span><span>1.0：改行が残りやすい</span></div>
+  <p>最も長い行に対して、この割合より短い行の後ろでは改行を残します。変更は即座に反映されます。</p>
+  <button id="reset">初期値（0.80）に戻す</button>
+
+  <hr>
+  <h1>スペース削除</h1>
+  <label><input type="checkbox" id="removeSpaces"> 日本語中の不要な半角スペースを削除する</label>
+  <p>PDFやOCR由来の「貼り 付け」のようなスペースを消します。英文の単語間のスペースはそのまま残します。</p>
+
+  <hr>
+  <h1>メモ帳</h1>
+  <textarea id="memo" placeholder="ここに貼り付けて、手直ししたりコピーしたりできます。"></textarea>
+  <div class="bar">
+    <button id="copy">コピー</button>
+    <button id="clear">クリア</button>
+    <span id="copyStatus"></span>
+  </div>
+  <p>ここでは整形されず、そのまま貼り付けられます。ココフォリアに戻すときは Ctrl+Shift+V で貼り付けてください。</p>
+  <script src="popup.js"></script>
+</body>
+</html>
