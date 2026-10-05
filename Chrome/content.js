@@ -4,16 +4,18 @@
 // 整形ロジックは format.js（formatText）にあります。
 
 // 値は拡張機能アイコンのポップアップ（スライダー）で変更でき、即座に反映されます。
-let shortLineRatio = 0.8;
-let removeSpaces = true; // 日本語中の不要な半角スペースを削除するか（ポップアップで切替）
-chrome.storage.sync.get({ shortLineRatio: 0.8, removeSpaces: true }, (r) => {
-  shortLineRatio = r.shortLineRatio;
-  removeSpaces = r.removeSpaces;
-});
+const settings = {
+  enabled: true, // 整形ペースト自体のオン/オフ
+  shortLineRatio: 0.8,
+  removeSpaces: true, // 日本語中の不要な半角スペースを削除するか
+  headingBlankLine: true, // 見出し行の後に空行を入れるか
+};
+chrome.storage.sync.get(settings, (r) => Object.assign(settings, r));
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== "sync") return;
-  if (changes.shortLineRatio) shortLineRatio = changes.shortLineRatio.newValue;
-  if (changes.removeSpaces) removeSpaces = changes.removeSpaces.newValue;
+  for (const key of Object.keys(settings)) {
+    if (changes[key]) settings[key] = changes[key].newValue;
+  }
 });
 
 let rawNext = false;
@@ -64,6 +66,7 @@ document.addEventListener(
     if (!(el instanceof HTMLTextAreaElement)) return;
     if (el.readOnly || el.disabled || document.activeElement !== el) return;
 
+    if (!settings.enabled) return; // ポップアップでオフにされている
     if (wasRaw) return; // Ctrl+Shift+V は無加工貼り付け
 
     const text = e.clipboardData && e.clipboardData.getData("text/plain");
@@ -72,7 +75,11 @@ document.addEventListener(
     // 整形に失敗したら横取りせず、ココフォリア標準の貼り付けに任せる
     let formatted;
     try {
-      formatted = formatText(text, shortLineRatio, removeSpaces);
+      formatted = formatText(text, {
+        ratio: settings.shortLineRatio,
+        removeSpaces: settings.removeSpaces,
+        headingBlankLine: settings.headingBlankLine,
+      });
     } catch (err) {
       console.error("[ccfolia-paste-fix] 整形に失敗しました:", err);
       return;

@@ -23,14 +23,30 @@ document.getElementById("reset").addEventListener("click", () => {
   chrome.storage.sync.set({ shortLineRatio: DEFAULT_RATIO });
 });
 
-// ---- スペース削除スイッチ ----
-const removeSpacesBox = document.getElementById("removeSpaces");
-chrome.storage.sync.get({ removeSpaces: true }, (r) => {
-  removeSpacesBox.checked = r.removeSpaces;
-});
-removeSpacesBox.addEventListener("change", () => {
-  chrome.storage.sync.set({ removeSpaces: removeSpacesBox.checked });
-});
+// ---- スイッチ（整形ペースト本体・見出しの後の空行・スペース削除） ----
+const formatSettings = document.getElementById("formatSettings");
+const enabledState = document.getElementById("enabledState");
+
+function showEnabled(on) {
+  enabledState.textContent = on ? "オン" : "オフ";
+  formatSettings.classList.toggle("off", !on);
+}
+
+function bindSwitch(key, defaultValue, onChange) {
+  const box = document.getElementById(key);
+  chrome.storage.sync.get({ [key]: defaultValue }, (r) => {
+    box.checked = r[key];
+    if (onChange) onChange(r[key]);
+  });
+  box.addEventListener("change", () => {
+    chrome.storage.sync.set({ [key]: box.checked });
+    if (onChange) onChange(box.checked);
+  });
+}
+
+bindSwitch("enabled", true, showEnabled);
+bindSwitch("headingBlankLine", true);
+bindSwitch("removeSpaces", true);
 
 // ---- メモ帳 ----
 const memo = document.getElementById("memo");

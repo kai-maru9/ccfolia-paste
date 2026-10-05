@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "ココフォリア PDF貼り付け整形",
+  "version": "1.1.0",
+  "description": "PDFからコピーした文章の不要な改行を、ココフォリアへの貼り付け時に整形します。Ctrl+Shift+Vで無加工貼り付け。",
+  "permissions": ["storage"],
+  "host_permissions": ["https://ccfolia.com/*"],
+  "action": {
+    "default_title": "貼り付け整形の設定",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://ccfolia.com/*"],
+      "js": ["format.js", "content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "ccfolia-paste@kai-maru9",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": { "required": ["none"] }
+    }
+  }
+}
