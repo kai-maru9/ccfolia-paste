@@ -3,9 +3,9 @@
 
 
 ## 導入方法
-### GoogleChrome(Throrium、Edgeも同様)の場合
+### GoogleChrome(Thorium、Edgeも同様)の場合
 1. 必要ファイルをDLします。
-2. `chrome://extensions`にアクセスします。(Edgeは`edge://extensions`)
+2. `chrome://extensions`にアクセスします。(Edgeは`edge://extensions`、Thoriumは`thorium://extensions/`)
 3. 右上の「デベロッパーモード」をオンにします。
 4. zipファイルをD&Dするか、展開したフォルダを「パッケージ化されていない拡張機能を読み込む」から選択してください。
 
