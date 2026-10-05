@@ -10,8 +10,9 @@
 4. zipファイルをD&Dするか、展開したフォルダを「パッケージ化されていない拡張機能を読み込む」から選択してください。
 
 ### FireFox(DeveloperEdition、Nightly)の場合
-1. CRX Installer(https://addons.mozilla.org/ja/firefox/addon/crxinstaller/ ​)をインストールします。
-2. CRX Installerのページから「Choose file」(Install Manually from File)を選択し、DLした.zipファイルを選択します。
+1. 必要ファイルをDLします。
+2. 「拡張機能を管理」からアドオンマネージャーを開きます。
+3. 歯車のマークから「ファイルからアドオンをインストール」を選択し、「ccfolia-paste-firefox-x.x.x.zip」を選択してください。
 
 
 
